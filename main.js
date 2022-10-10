@@ -26,6 +26,10 @@ console.log('\nStarting the miner...')
 RecycleCoin.minePandingTransactions(myWalletAddress);
 RecycleCoin.minePandingTransactions(myWalletAddress);
 
+const tx4 = new Transaction(myWalletAddress, 'public key goes here', 40);
+tx4.signTransaction(myKey);
+RecycleCoin.addTransaction(tx4);
+
 console.log('\n balance of my : ', RecycleCoin.getBalanceOfAddress(myWalletAddress));
 
 
