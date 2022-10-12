@@ -143,4 +143,4 @@ class Blockchain {
     }
 }
 
-module.exports = { Transaction, Blockchain }
+module.exports = { Transaction,Block, Blockchain }
