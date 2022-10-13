@@ -68,11 +68,11 @@ class Block {
 }
 
 class Blockchain {
-    constructor() {
-        this.chain = [this.createGenesisBlock()];
-        this.difficulty = 2;
-        this.pendingTransactions = [];
-        this.miningReward = 100;
+    constructor(chain,difficulty,miningReward,pendingTransactions) {
+        this.chain = chain;
+        this.difficulty = difficulty;
+        this.pendingTransactions = pendingTransactions;
+        this.miningReward = miningReward;
     }
     createGenesisBlock() {
         return new Block(Date.parse("2017-01-01"), [], "0");
@@ -81,7 +81,7 @@ class Blockchain {
         return this.chain[this.chain.length - 1];
     }
 
-    minePandingTransactions(miningRewardAddress) {
+    minePendingTransactions(miningRewardAddress) {
         const rewardTx = new Transaction(null, miningRewardAddress, this.miningReward);
         this.pendingTransactions.push(rewardTx);
 

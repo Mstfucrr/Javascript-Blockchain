@@ -1,4 +1,4 @@
-const { Blockchain,Block, Transaction } = require('./src/blockchain')
+const { Blockchain, Block, Transaction } = require('./src/blockchain')
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 const connectDatabase = require('./database/connectDatabase')
@@ -8,61 +8,41 @@ connectDatabase();
 
 const myKey = ec.keyFromPrivate('e71ae3def584cb664c70b7890cbff57333e0667999be12661befbf38d4ca2846')
 const myWalletAddress = myKey.getPublic('hex')
-let RecycleCoin = new Blockchain();
 
 
 
-
-
-addTransaction = async function (transaction) {
+GetBlockchain = async function () {
     const blockchain = await BlockchainDB.find();
-    var pendingTransactions = blockchain[0]["pendingTransactions"];
-    var newTransaction = transaction;
-    pendingTransactions.push(newTransaction);
-    console.log("new transaction is added..", pendingTransactions)
-    const newBlockchain = await BlockchainDB.updateOne({
-        chain: blockchain[0]["chain"],
-        difficulty: blockchain[0]["difficulty"],
-        pendingTransactions: pendingTransactions,
-        miningReward: blockchain[0]["miningReward"]
-    })
+    let RecycleCoin = new Blockchain(blockchain[0]["chain"], blockchain[0]["difficulty"], blockchain[0]["miningReward"], blockchain[0]["pendingTransactions"]);
+    console.log(RecycleCoin);
+    return RecycleCoin;
 }
-// const tx1 = new Transaction(myWalletAddress, 'public key goes----', 120)
-// tx1.signTransaction(myKey);
+AddTransaction = async function (transaction) {
+    RecycleCoin = await GetBlockchain();
+    RecycleCoin.addTransaction(transaction);
+    const newBlockchain = await BlockchainDB.updateOne({
+        chain: RecycleCoin.chain,
+        difficulty: RecycleCoin.difficulty,
+        pendingTransactions: RecycleCoin.pendingTransactions,
+        miningReward: RecycleCoin.miningReward
 
-
-// addTransaction(tx1);
-
+    })
+    console.log(newBlockchain);
+}
 minerPendingTransactions = async function (minerRewardAddress) {
-    const blockchain = await BlockchainDB.find();
-    var pendingTransactions = blockchain[0]["pendingTransactions"];
-    const rewardTx = new Transaction(null, minerRewardAddress, blockchain[0]["miningReward"]);
-    pendingTransactions.push(rewardTx);
-    const block = new Block(Date.now(), pendingTransactions, blockchain[0]["chain"].slice(-1)[0]["hash"])
-    block.mineBlock(blockchain[0]["difficulty"]);
-    blockchain[0]["chain"].push(block);
-    console.log("Block successfully mined!")
+    const blockchain = await GetBlockchain();
+    blockchain.minePendingTransactions(minerRewardAddress);
     const newBlockchain = await BlockchainDB.updateOne({
-        chain: blockchain[0]["chain"],
-        difficulty: blockchain[0]["difficulty"],
-        pendingTransactions: [],
-        miningReward: blockchain[0]["miningReward"]
+        chain: blockchain.chain,
+        difficulty: blockchain.difficulty,
+        pendingTransactions: blockchain.pendingTransactions,
+        miningReward: blockchain.miningReward
     })
 }
 
-// minerPendingTransactions(myWalletAddress);
+// const tx1 = new Transaction(myWalletAddress, 'eeeee', 6666)
+// tx1.signTransaction(myKey);
+// AddTransaction(tx1);
 
 
-// const newBlockchain = async function () {
-
-//     const newBlockchain = await BlockchainDB.create({
-//         chain: RecycleCoin.chain,
-//         difficulty: RecycleCoin.difficulty,
-//         pendingTransactions: RecycleCoin.pendingTransactions,
-//         miningReward: RecycleCoin.miningReward
-
-//     })
-//     console.log("new block chain is created..", newBlockchain)
-// }
-
-// newBlockchain();
+minerPendingTransactions(myWalletAddress);
