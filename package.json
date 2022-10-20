@@ -1,7 +1,22 @@
 {
+  "name": "blockchain-api",
+  "version": "1.0.0",
+  "description": "Question-Answer",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Muhammet Mustafa Uçar",
+  "license": "MIT",
   "dependencies": {
     "crypto-js": "^4.1.1",
     "elliptic": "^6.5.4",
+    "express": "^4.18.2",
     "mongoose": "^6.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

@@ -31,7 +31,7 @@ class BlockChainDbHelper {
             miningReward: blockchain.miningReward
         })
     }
-    getBlockFromHash = async function (hash) {
+    getBlockByHash = async function (hash) {
         const blockchain = await this.GetBlockchain();
         return blockchain.chain.find(block => block.hash === hash);
     }
