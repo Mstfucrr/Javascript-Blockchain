@@ -1,6 +1,4 @@
 const BlockChainDbHelper = require('../helpers/BlockchainDbHelper');
-
-
 const blockChainDbHelper = new BlockChainDbHelper();
 
 const getBlockchain = function() {
@@ -12,5 +10,6 @@ const getBlockByHash = function(hash) {
     var block = blockChainDbHelper.getBlockByHash(hash);
     return block;
 }
+
 
 module.exports = {getBlockchain , getBlockByHash};
