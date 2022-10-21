@@ -12,10 +12,12 @@ class BlockChainDbHelper {
     }
     AddTransaction = async function (fromAddress, toAddress, amount) {
         var RecycleCoin = await this.GetBlockchain();
-        var transaction = new Transaction(fromAddress, toAddress, amount);
         var EC = require('elliptic').ec;
         var ec = new EC('secp256k1');
-        transaction.signTransaction(ec.keyFromPrivate(fromAddress));
+        var key = ec.keyFromPrivate(fromAddress);
+        var walletAddress = key.getPublic('hex');
+        var transaction = new Transaction(walletAddress, toAddress, amount);
+        transaction.signTransaction(key);
         RecycleCoin.addTransaction(transaction);
         const newBlockchain = await BlockchainDB.updateOne({
             chain: RecycleCoin.chain,

@@ -3,8 +3,7 @@ const {AddTransaction,minerPendingTransactions}  = require('../controller/Transa
 const router = express.Router()
 
 router.post('/AddTransaction', async (req, res) => {
-    AddTransaction(req.body.fromAddress, req.body.toAddress, req.body.amount);
-    console.log("Transaction added");
+    AddTransaction(req.body.fromAddress, req.body.toAddress, parseInt(req.body.amount));
     res.json({ note: 'Transaction added successfully.' });
 })
 
