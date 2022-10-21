@@ -35,6 +35,11 @@ class BlockChainDbHelper {
         const blockchain = await this.GetBlockchain();
         return blockchain.chain.find(block => block.hash === hash);
     }
+
+    getBalanceOfAddress = async function (address) {
+        const blockchain = await this.GetBlockchain();
+        return blockchain.getBalanceOfAddress(address);
+    }
 }
 
 module.exports = BlockChainDbHelper;
