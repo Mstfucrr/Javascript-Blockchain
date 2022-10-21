@@ -1,12 +1,16 @@
 const express = require('express')
-const {getBalanceOfAddress}  = require('../controller/User')
+const {getBalanceOfAddress ,getTransactionsOfAddress}  = require('../controller/User')
 const router = express.Router()
 
 
-router.get('/getBalanceOfAddress/:address', async (req, res) => {
-    const balance = await getBalanceOfAddress(req.params.address);
+router.post('/getBalanceOfAddress', async (req, res) => {
+    const balance = await getBalanceOfAddress(req.body.Address);
     res.json(balance);
 })
 
+router.post('/getTransactionsOfAddress', async (req, res) => {
+    const transactions = await getTransactionsOfAddress(req.body.Address);
+    res.json(transactions);
+})
 
 module.exports = router

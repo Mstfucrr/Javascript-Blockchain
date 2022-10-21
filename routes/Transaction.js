@@ -3,15 +3,14 @@ const {AddTransaction,minerPendingTransactions}  = require('../controller/Transa
 const router = express.Router()
 
 router.post('/AddTransaction', async (req, res) => {
-    const transaction = req.body;
-    AddTransaction(transaction);
+    AddTransaction(req.body.fromAddress, req.body.toAddress, req.body.amount);
+    console.log("Transaction added");
     res.json({ note: 'Transaction added successfully.' });
 })
 
-router.get('/minerPendingTransactions/:minerRewardAddress', async (req, res) => {
-    const minerRewardAddress = req.params.minerRewardAddress;
-    minerPendingTransactions(minerRewardAddress);
-    res.json({ note: 'Transaction added successfully.' });
+router.post('/minerPendingTransactions', async (req, res) => {
+    minerPendingTransactions(req.body.minerRewardAddress);
+    res.json({ note: 'Mine is successfully' });
 })
 
 module.exports = router

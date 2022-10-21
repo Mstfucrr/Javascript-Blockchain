@@ -6,4 +6,9 @@ const getBalanceOfAddress = function(address) {
     return balance;
 }
 
-module.exports = {getBalanceOfAddress};
+const getTransactionsOfAddress = function(address) {
+    var transactions = blockChainDbHelper.getTransactionsOfAddress(address);
+    return transactions;
+}
+
+module.exports = {getBalanceOfAddress ,getTransactionsOfAddress};

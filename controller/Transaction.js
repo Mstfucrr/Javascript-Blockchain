@@ -1,9 +1,9 @@
 const BlockChainDbHelper = require('../helpers/BlockchainDbHelper');
+const { Transaction } = require('../src/blockchain');
 const blockChainDbHelper = new BlockChainDbHelper();
 
-const AddTransaction = function(transaction) {
-    var newTransaction = JSON.parse(transaction);
-    blockChainDbHelper.AddTransaction(newTransaction);
+const AddTransaction = function(fromAddress, toAddress, amount) {
+    blockChainDbHelper.AddTransaction(fromAddress, toAddress, amount);
 }
 
 const minerPendingTransactions = function(minerRewardAddress) {

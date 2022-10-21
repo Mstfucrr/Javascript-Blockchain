@@ -10,8 +10,12 @@ class BlockChainDbHelper {
         let RecycleCoin = new Blockchain(blockchain[0]["chain"], blockchain[0]["difficulty"], blockchain[0]["miningReward"], blockchain[0]["pendingTransactions"]);
         return RecycleCoin;
     }
-    AddTransaction = async function (transaction) {
-        RecycleCoin = await this.GetBlockchain();
+    AddTransaction = async function (fromAddress, toAddress, amount) {
+        var RecycleCoin = await this.GetBlockchain();
+        var transaction = new Transaction(fromAddress, toAddress, amount);
+        var EC = require('elliptic').ec;
+        var ec = new EC('secp256k1');
+        transaction.signTransaction(ec.keyFromPrivate(fromAddress));
         RecycleCoin.addTransaction(transaction);
         const newBlockchain = await BlockchainDB.updateOne({
             chain: RecycleCoin.chain,
@@ -39,6 +43,20 @@ class BlockChainDbHelper {
     getBalanceOfAddress = async function (address) {
         const blockchain = await this.GetBlockchain();
         return blockchain.getBalanceOfAddress(address);
+    }
+
+    getTransactionsOfAddress = async function (address) {
+        
+        const blockchain = await this.GetBlockchain();
+        var transactions = [];
+        for (const block of blockchain.chain) {
+            for (const transaction of block.transactions) {
+                if (transaction.fromAddress === address || transaction.toAddress === address) {
+                    transactions.push(transaction);
+                }
+            }
+        }
+        return transactions;
     }
 }
 
