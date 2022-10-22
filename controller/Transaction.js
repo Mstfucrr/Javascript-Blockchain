@@ -10,4 +10,8 @@ const minerPendingTransactions = function(minerRewardAddress) {
     blockChainDbHelper.minerPendingTransactions(minerRewardAddress);
 }
 
-module.exports = {AddTransaction , minerPendingTransactions};
+const getPendingTransactions = function() {
+    return blockChainDbHelper.getPendingTransactions();
+}
+
+module.exports = {AddTransaction , minerPendingTransactions, getPendingTransactions};

@@ -7,6 +7,8 @@ class Transaction {
         this.fromAddress = fromAddress
         this.toAddress = toAddress
         this.amount = amount
+        this.TransactionisValid = Boolean
+        this.timestamp = Date.now()
     }
 
     calculateHash() {

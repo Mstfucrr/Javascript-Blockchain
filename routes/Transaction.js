@@ -1,5 +1,5 @@
 const express = require('express')
-const {AddTransaction,minerPendingTransactions}  = require('../controller/Transaction')
+const {AddTransaction,minerPendingTransactions,getPendingTransactions}  = require('../controller/Transaction')
 const router = express.Router()
 
 router.post('/AddTransaction', async (req, res) => {
@@ -11,5 +11,13 @@ router.post('/minerPendingTransactions', async (req, res) => {
     minerPendingTransactions(req.body.minerRewardAddress);
     res.json({ note: 'Mine is successfully' });
 })
+
+router.get('/getPendingTransactions', async (req, res) => {
+    const pendingTransactions = await getPendingTransactions();
+    res.json(pendingTransactions);
+})
+
+
+
 
 module.exports = router

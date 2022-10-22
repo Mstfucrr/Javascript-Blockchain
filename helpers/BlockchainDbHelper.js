@@ -18,7 +18,9 @@ class BlockChainDbHelper {
         var walletAddress = key.getPublic('hex');
         var transaction = new Transaction(walletAddress, toAddress, amount);
         transaction.signTransaction(key);
+        transaction.TransactionisValid = transaction.isValid();
         RecycleCoin.addTransaction(transaction);
+        
         const newBlockchain = await BlockchainDB.updateOne({
             chain: RecycleCoin.chain,
             difficulty: RecycleCoin.difficulty,
@@ -59,6 +61,28 @@ class BlockChainDbHelper {
             }
         }
         return transactions;
+    }
+
+    getDifficultyAndminingReward = async function () {
+        const blockchain = await this.GetBlockchain();
+        return { difficulty: blockchain.difficulty, miningReward: blockchain.miningReward };
+    }
+
+    setDifficultyAndminingReward = async function (difficulty, miningReward) {
+        const blockchain = await this.GetBlockchain();
+        blockchain.difficulty = difficulty;
+        blockchain.miningReward = miningReward;
+        const newBlockchain = await BlockchainDB.updateOne({
+            chain: blockchain.chain,
+            difficulty: blockchain.difficulty,
+            pendingTransactions: blockchain.pendingTransactions,
+            miningReward: blockchain.miningReward
+        })
+    }
+
+    getPendingTransactions = async function () {
+        const blockchain = await this.GetBlockchain();
+        return blockchain.pendingTransactions;
     }
 }
 

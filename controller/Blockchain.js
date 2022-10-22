@@ -11,5 +11,14 @@ const getBlockByHash = function(hash) {
     return block;
 }
 
+const getDifficultyAndminingReward = function() {
+    var difficultyAndminingReward = blockChainDbHelper.getDifficultyAndminingReward();
+    return difficultyAndminingReward;
+}
 
-module.exports = {getBlockchain , getBlockByHash};
+const setDifficultyAndminingReward = function(difficulty, miningReward) {
+    blockChainDbHelper.setDifficultyAndminingReward(difficulty, miningReward);
+    return blockChainDbHelper.getDifficultyAndminingReward();
+}
+
+module.exports = {getBlockchain , getBlockByHash , getDifficultyAndminingReward,setDifficultyAndminingReward};
