@@ -9,7 +9,10 @@ router.get('/getBlockchain', async (req, res) => {
 
 router.get('/getBlockByHash/:hash', async (req, res) => {
     const block = await getBlockByHash(req.params.hash);
-    console.log(block);
+    res.setHeader('Content-Type', 'application/json');
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST');
+    res.set('Access-Control-Allow-Credentials', true);
     res.json(block);
 })
 
