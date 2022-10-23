@@ -1,5 +1,6 @@
 const BlockChainDbHelper = require('../helpers/BlockchainDbHelper');
 const blockChainDbHelper = new BlockChainDbHelper();
+const EC = require('elliptic').ec;
 
 const getBalanceOfAddress = function(address) {
     var balance = blockChainDbHelper.getBalanceOfAddress(address);
@@ -11,4 +12,16 @@ const getTransactionsOfAddress = function(address) {
     return transactions;
 }
 
-module.exports = {getBalanceOfAddress ,getTransactionsOfAddress};
+const generateKeyPair = function() {
+    const ec = new EC('secp256k1');
+    const key = ec.genKeyPair();
+    const publickey = key.getPublic('hex');
+    const privateKey = key.getPrivate('hex');
+    return {
+        publickey,
+        privateKey
+    };
+}
+
+
+module.exports = {getBalanceOfAddress ,getTransactionsOfAddress,generateKeyPair};
