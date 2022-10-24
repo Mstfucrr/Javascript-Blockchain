@@ -17,6 +17,15 @@ router.get('/getPendingTransactions', async (req, res) => {
     res.json(pendingTransactions);
 })
 
+router.get('/getPendingTransactionCount', async (req, res) => {
+    const pendingTransactions = await getPendingTransactions();
+    res.setHeader('Content-Type', 'application/json');
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST');
+    res.set('Access-Control-Allow-Credentials', true);
+    res.json(pendingTransactions.length);
+})
+
 
 
 

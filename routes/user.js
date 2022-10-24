@@ -14,7 +14,7 @@ router.post('/getTransactionsOfAddress', async (req, res) => {
 })
 
 router.get('/generateKeyPair', async (req, res) => {
-    const keyPair = await generateKeyPair();
+    const keyPair = generateKeyPair();
     res.json(keyPair);
 })
     

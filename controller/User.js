@@ -15,10 +15,10 @@ const getTransactionsOfAddress = function(address) {
 const generateKeyPair = function() {
     const ec = new EC('secp256k1');
     const key = ec.genKeyPair();
-    const publickey = key.getPublic('hex');
+    const publicKey = key.getPublic('hex');
     const privateKey = key.getPrivate('hex');
     return {
-        publickey,
+        publicKey,
         privateKey
     };
 }
