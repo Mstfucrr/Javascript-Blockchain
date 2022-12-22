@@ -23,6 +23,10 @@ let BlockchainSchema = new Schema({
     miningReward : {
         required: true,
         type: Schema.Types.Number
+    },
+    isChainValid : {
+        required: true,
+        type: Schema.Types.Boolean
     }
 
 })
