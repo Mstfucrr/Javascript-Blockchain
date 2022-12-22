@@ -11,7 +11,7 @@ class BlockChainDbHelper {
         return RecycleCoin;
     }
     AddTransaction = async function (fromAddress, toAddress, amount) {
-        var RecycleCoin = await this.GetBlockchain();
+        const RecycleCoin = await this.GetBlockchain();
         var EC = require('elliptic').ec;
         var ec = new EC('secp256k1');
         var key = ec.keyFromPrivate(fromAddress);
@@ -25,7 +25,8 @@ class BlockChainDbHelper {
             chain: RecycleCoin.chain,
             difficulty: RecycleCoin.difficulty,
             pendingTransactions: RecycleCoin.pendingTransactions,
-            miningReward: RecycleCoin.miningReward
+            miningReward: RecycleCoin.miningReward,
+            isChainValid: RecycleCoin.isChainValid
 
         })
     }
@@ -36,7 +37,8 @@ class BlockChainDbHelper {
             chain: blockchain.chain,
             difficulty: blockchain.difficulty,
             pendingTransactions: blockchain.pendingTransactions,
-            miningReward: blockchain.miningReward
+            miningReward: blockchain.miningReward,
+            isChainValid : blockchain.isChainValid
         })
     }
     getBlockByHash = async function (hash) {
@@ -76,7 +78,8 @@ class BlockChainDbHelper {
             chain: blockchain.chain,
             difficulty: blockchain.difficulty,
             pendingTransactions: blockchain.pendingTransactions,
-            miningReward: blockchain.miningReward
+            miningReward: blockchain.miningReward,
+            isChainValid : blockchain.isChainValid
         })
     }
 
