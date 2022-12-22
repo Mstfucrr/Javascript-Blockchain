@@ -75,6 +75,7 @@ class Blockchain {
         this.difficulty = difficulty;
         this.pendingTransactions = pendingTransactions;
         this.miningReward = miningReward;
+        this.isChainValid = this.isChainValid();
     }
     createGenesisBlock() {
         return new Block(Date.parse("2017-01-01"), [], "0");
@@ -85,8 +86,9 @@ class Blockchain {
 
     minePendingTransactions(miningRewardAddress) {
         const rewardTx = new Transaction(null, miningRewardAddress, this.miningReward);
+        rewardTx.TransactionisValid = true;
+        rewardTx.timestamp = Date.now()
         this.pendingTransactions.push(rewardTx);
-
         let block = new Block(Date.now(), this.pendingTransactions, this.getLastBlock().hash)
         block.mineBlock(this.difficulty)
 
@@ -125,7 +127,7 @@ class Blockchain {
         return balance;
     }
 
-    isChainVaid() {
+    isChainValid() {
         for (let i = 1; i < this.chain.length; i++) {
             const currentBlock = this.chain[i];
             const previousBlock = this.chain[i - 1];
