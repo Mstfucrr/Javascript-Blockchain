@@ -4,6 +4,10 @@ const router = express.Router()
 
 router.post('/AddTransaction', async (req, res) => {
     AddTransaction(req.body.fromAddress, req.body.toAddress, parseInt(req.body.amount));
+    console.log("Transaction added successfully.\n"+
+    "From: "+req.body.fromAddress+"\n"+
+    "To: "+req.body.toAddress+"\n"+
+    "Amount: "+req.body.amount+"\n");
     res.json({ note: 'Transaction added successfully.' });
 })
 
