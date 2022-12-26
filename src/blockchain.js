@@ -59,7 +59,11 @@ class Block {
 
     hasValidTransaction() {
         for (const tx of this.transactions) {
-            if (!tx.isValid()) {
+            var transaction = new Transaction(tx.fromAddress, tx.toAddress, tx.amount);
+            transaction.TransactionisValid = tx.TransactionisValid;
+            transaction.timestamp = tx.timestamp;
+            transaction.signature = tx.signature;
+            if (!transaction.isValid()) {
                 return false;
             }
         }
@@ -124,22 +128,34 @@ class Blockchain {
                 }
             }
         }
+        for (const pending of this.pendingTransactions) {
+            if (pending.fromAddress === address) {
+                balance -= pending.amount;
+            }
+            if (pending.toAddress === address) {
+                balance += pending.amount;
+            }
+        }
+        
         return balance;
     }
 
     isChainValid() {
         for (let i = 1; i < this.chain.length; i++) {
             const currentBlock = this.chain[i];
+            var cblock = new Block(currentBlock.timestamp, currentBlock.transactions, currentBlock.previousHash)
+            cblock.hash = currentBlock.hash
+            cblock.nonce = currentBlock.nonce
             const previousBlock = this.chain[i - 1];
-
-            if (!currentBlock.hasValidTransaction()) {
+            console.dir(currentBlock)
+            if (!cblock.hasValidTransaction()) {
                 return false;
             }
 
-            if (currentBlock.hash !== currentBlock.calculateHash()) {
+            if (cblock.hash !== cblock.calculateHash()) {
                 return false;
             }
-            if (currentBlock.previousHash !== previousBlock.hash) {
+            if (cblock.previousHash !== cblock.hash) {
                 return false
             }
         }
